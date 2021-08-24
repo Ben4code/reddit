@@ -1,12 +1,12 @@
-import { Request, Response, NextFunction } from "express";
+import {Request, Response, NextFunction} from 'express';
 
-export default (req: Request, res: Response, next: NextFunction) => {
-  const exceptions = ['password']
-  Object.keys(req.body).forEach((key) => {
-    if (!exceptions.includes(key) && typeof req.body[key] === 'string'){
-      req.body[key] = req.body[key].trim()
-    }
-  })
+export default (request: Request, _: Response, next: NextFunction) => {
+	const exceptions = new Set(['password']);
+	for (const key of Object.keys(request.body)) {
+		if (!exceptions.has(key) && typeof request.body[key] === 'string') {
+			request.body[key] = request.body[key].trim();
+		}
+	}
 
-  next()
-}
+	next();
+};
